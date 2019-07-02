@@ -1,0 +1,47 @@
+<StudentTable>
+  <Table1>
+    <DepartmentID>2</DepartmentID>
+    <DepartmentName>经济与管理学院</DepartmentName>
+    <StuID>136394</StuID>
+    <ClassNO>20101184</ClassNO>
+    <StuNO>2010118415</StuNO>
+    <StuName>赵圆圆</StuName>
+    <Grade>2010</Grade>
+    <Sex>女</Sex>
+    <Birthday>19920626</Birthday>
+    <PoliticalState>共青团员</PoliticalState>
+    <SpecialName>财务管理</SpecialName>
+    <SpecialID>30</SpecialID>
+    <Nation>汉族</Nation>
+    <IdentityNO>421022199206265468</IdentityNO>
+    <EduYear>2</EduYear>
+    <EduLever>专升本</EduLever>
+    <TestNO>12P111075000015</TestNO>
+    <StuPlace>湖北三峡职业技术学院</StuPlace>
+    <State>0</State>
+  </Table1>
+  <Table1>
+    <DepartmentID>25</DepartmentID>
+    <DepartmentName>科技学院</DepartmentName>
+    <StuID>125026</StuID>
+    <ClassNO>20104012</ClassNO>
+    <StuNO>2010401215</StuNO>
+    <StuName>刘建明</StuName>
+    <Grade>2010</Grade>
+    <Sex>男</Sex>
+    <Birthday>19900913</Birthday>
+    <PoliticalState>共青团员</PoliticalState>
+    <SpecialName>水利水电工程（科技）</SpecialName>
+    <SpecialID>162</SpecialID>
+    <Nation>汉族</Nation>
+    <IdentityNO>420922199009134272</IdentityNO>
+    <EduYear>4</EduYear>
+    <EduLever>本科</EduLever>
+    <TestNO>10420922152604</TestNO>
+    <StuType>农村往届</StuType>
+    <StuPlace>420922</StuPlace>
+    <PostAddress />
+    <PostCode />
+    <State>0</State>
+  </Table1>
+</StudentTable>

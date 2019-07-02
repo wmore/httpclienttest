@@ -2,11 +2,14 @@ package com.wangyue.http.parser;
 
 import com.wangyue.http.vo.SpecialInfo;
 import org.dom4j.Element;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
+@Component
 public class SpecialInfoParser extends BaseParser {
 
     /**

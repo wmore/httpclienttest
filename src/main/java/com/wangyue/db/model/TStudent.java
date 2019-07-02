@@ -21,11 +21,11 @@ public class TStudent {
     private String sex;
     @Column
     private String studentNumber;
-    @Column
+    @Column(name = "academy_id")
     private String acdemyId;
-    @Column
+    @Column(name = "class_id")
     private String classId;
-    @Column
+    @Column(name = "specialty_id")
     private String specialtyId;
 
     public String getStudentId() {
@@ -98,5 +98,20 @@ public class TStudent {
 
     public void setSpecialtyId(String specialtyId) {
         this.specialtyId = specialtyId;
+    }
+
+    @Override
+    public String toString() {
+        return "TStudent{" +
+                "studentId='" + studentId + '\'' +
+                ", grade='" + grade + '\'' +
+                ", idNumber='" + idNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", studentNumber='" + studentNumber + '\'' +
+                ", acdemyId='" + acdemyId + '\'' +
+                ", classId='" + classId + '\'' +
+                ", specialtyId='" + specialtyId + '\'' +
+                '}';
     }
 }
