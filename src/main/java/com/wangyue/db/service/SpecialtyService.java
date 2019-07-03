@@ -1,6 +1,8 @@
 package com.wangyue.db.service;
 
+import com.wangyue.db.dao.SpecialtyRepository;
 import com.wangyue.db.dao.StudentRepository;
+import com.wangyue.db.model.TSpecialty;
 import com.wangyue.db.model.TStudent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,22 +11,22 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class StudentService {
+public class SpecialtyService {
     @Resource
-    private StudentRepository studentRepository;
+    private SpecialtyRepository specialtyRepository;
 
     @Transactional
-    public void save(TStudent student) {
-        studentRepository.save(student);
+    public void save(TSpecialty specialty) {
+        specialtyRepository.save(specialty);
     }
 
     @Transactional
-    public void saveAll(List<TStudent> students) {
-        studentRepository.save(students);
+    public void saveAll(List<TSpecialty> specialties) {
+        specialtyRepository.save(specialties);
     }
 
     @Transactional
     public void removeAll() {
-        studentRepository.deleteAll();
+        specialtyRepository.deleteAll();
     }
 }

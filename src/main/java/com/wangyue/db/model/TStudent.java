@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 //指定表名，指定唯一约束
-@Table(name = "t_student",uniqueConstraints = {@UniqueConstraint(columnNames = {"studentId"})})
+@Table(name = "t_student", uniqueConstraints = {@UniqueConstraint(columnNames = {"studentId"})})
 public class TStudent {
 
     @Id
@@ -21,11 +21,11 @@ public class TStudent {
     private String sex;
     @Column
     private String studentNumber;
-    @Column(name = "academy_id")
+    @Column
     private String acdemyId;
-    @Column(name = "class_id")
+    @Column
     private String classId;
-    @Column(name = "specialty_id")
+    @Column
     private String specialtyId;
 
     public String getStudentId() {
