@@ -1,23 +1,14 @@
 package com.wangyue;
 
-import com.wangyue.db.model.TAcdemy;
-import com.wangyue.db.model.TClass;
-import com.wangyue.db.model.TDepartment;
-import com.wangyue.db.model.TSpecialty;
+import com.wangyue.db.model.*;
 import com.wangyue.db.service.*;
-import com.wangyue.http.parser.ClassInfoParser;
-import com.wangyue.http.parser.DepartmentParser;
-import com.wangyue.http.parser.SpecialInfoParser;
-import com.wangyue.http.parser.StudentParser;
-import com.wangyue.http.vo.ClassInfo;
-import com.wangyue.http.vo.Department;
-import com.wangyue.http.vo.SpecialInfo;
+import com.wangyue.http.parser.*;
+import com.wangyue.http.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class DataManager {
@@ -49,6 +40,12 @@ public class DataManager {
     @Resource
     private ClassService classService;
 
+    @Resource
+    private TeacherService teacherService;
+
+    @Resource
+    private TeacherParser teacherParser;
+
     public void syncData() {
 
         clearAllTable();
@@ -56,27 +53,10 @@ public class DataManager {
         syncDepartmentTable();
         syncSpecialtyTable();
         syncClassTable();
+        syncTeacherTable();
+        syncStudentTable();
 
 
-     /*   String filePath = "src/main/resources/httpdata/GetStudent2.xml";
-        List<Student> list = studentParser.listNodes(studentParser.initDepartmentFromXmlFile(filePath));
-        List<TStudent> tStudents = new ArrayList<>();
-        for (Student s: list) {
-//            System.out.println(s);
-            TStudent tStudent = new TStudent();
-            tStudent.setStudentId(s.getStuID());
-            tStudent.setGrade(s.getGrade());
-            tStudent.setIdNumber(s.getIdentityNO());
-            tStudent.setName(s.getStuName());
-            tStudent.setSex(s.getSex().equals("男")?"1":"2");
-            tStudent.setStudentNumber(s.getStuNO());
-            tStudent.setAcdemyId("1");
-            tStudent.setClassId(s.getClassNO());
-            tStudent.setSpecialtyId(s.getSpecialID());
-            tStudents.add(tStudent);
-            System.out.println(tStudent);
-        }
-        studentService.saveAll(tStudents);*/
 
 //        String filePath = "src/main/resources/httpdata/GetTeacher.xml";
 //        TeacherParser teacherParser = new TeacherParser();
@@ -107,6 +87,8 @@ public class DataManager {
         acdemyService.removeAll();
         specialtyService.removeAll();
         studentService.removeAll();
+        teacherService.removeAll();
+        classService.removeAll();
     }
 
     private void syncDepartmentTable() {
@@ -162,4 +144,100 @@ public class DataManager {
         classService.saveAll(tClassList);
     }
 
+    /**
+     *     <DepartmentID>23</DepartmentID>
+     *     <DepartmentName>水利与环境学院</DepartmentName>
+     *     <TeacherNO>A015</TeacherNO>
+     *     <TeacherName>陈新元</TeacherName>
+     *     <IdentityNO>0</IdentityNO>
+     *     <Degree>博士后</Degree>
+     *     <Rank />
+     *     <Resume>总监理工程师，长期从事工程设计施工监理的教学科研工作。 </Resume>
+     *     <Email>0</Email>
+     */
+    private void syncTeacherTable() {
+        String filePath = "src/main/resources/httpdata/GetTeacher.xml";
+        List<Teacher> list = teacherParser.listNodes(teacherParser.initDepartmentFromXmlFile(filePath));
+        List<TTeacher> tTeacherList = new ArrayList<>();
+        for (Teacher t : list) {
+            System.out.println(t);
+            TTeacher tTeacher = new TTeacher();
+            tTeacher.setDepartmentId(t.getDepartmentID());
+            tTeacher.setCode(t.getTeacherNO());
+            tTeacher.setName(t.getTeacherName());
+            tTeacher.setIdNumber(t.getIdentityNO());
+            tTeacher.setDescription(t.getResume());
+            tTeacher.setEmail(t.getEmail());
+            tTeacher.setTeacherId(t.getTeacherNO());
+            tTeacher.setStatus("1");
+            tTeacher.setSex("1");
+            tTeacher.setBirthDay();
+            tTeacher.setPost();
+            tTeacher.setTelephoneNumber();
+            tTeacherList.add(tTeacher);
+        }
+        teacherService.saveAll(tTeacherList);
+    }
+
+
+    private void syncStudentTable() {
+        String filePath = "src/main/resources/httpdata/GetStudent2.xml";
+        List<Student> list = studentParser.listNodes(studentParser.initDepartmentFromXmlFile(filePath));
+        List<TStudent> tStudents = new ArrayList<>();
+        for (Student s: list) {
+//            System.out.println(s);
+            TStudent tStudent = new TStudent();
+            tStudent.setStudentId(s.getStuID());
+            tStudent.setGrade(s.getGrade());
+            tStudent.setIdNumber(s.getIdentityNO());
+            tStudent.setName(s.getStuName());
+            tStudent.setSex(s.getSex().equals("男")?"1":"2");
+            tStudent.setStudentNumber(s.getStuNO());
+            tStudent.setAcdemyId(s.getDepartmentID());
+            tStudent.setClassId(s.getClassNO());
+            tStudent.setSpecialtyId(s.getSpecialID());
+            tStudents.add(tStudent);
+            System.out.println(tStudent);
+        }
+        studentService.saveAll(tStudents);
+    }
+
+    private Map<String, String> getBirthInfoFromIDNumber(String  idNumber) {
+            String birthday = "";
+            String age = "";
+            String sexCode = "";
+
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+            char[] number = certificateNo.toCharArray();
+            boolean flag = true;
+            if (number.length == 15) {
+                for (int x = 0; x < number.length; x++) {
+                    if (!flag) return new HashMap<String, String>();
+                    flag = Character.isDigit(number[x]);
+                }
+            } else if (number.length == 18) {
+                for (int x = 0; x < number.length - 1; x++) {
+                    if (!flag) return new HashMap<String, String>();
+                    flag = Character.isDigit(number[x]);
+                }
+            }
+            if (flag && certificateNo.length() == 15) {
+                birthday = "19" + certificateNo.substring(6, 8) + "-"
+                        + certificateNo.substring(8, 10) + "-"
+                        + certificateNo.substring(10, 12);
+                sexCode = Integer.parseInt(certificateNo.substring(certificateNo.length() - 3, certificateNo.length())) % 2 == 0 ? "F" : "M";
+                age = (year - Integer.parseInt("19" + certificateNo.substring(6, 8))) + "";
+            } else if (flag && certificateNo.length() == 18) {
+                birthday = certificateNo.substring(6, 10) + "-"
+                        + certificateNo.substring(10, 12) + "-"
+                        + certificateNo.substring(12, 14);
+                sexCode = Integer.parseInt(certificateNo.substring(certificateNo.length() - 4, certificateNo.length() - 1)) % 2 == 0 ? "F" : "M";
+                age = (year - Integer.parseInt(certificateNo.substring(6, 10))) + "";
+            }
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("birthday", birthday);
+            map.put("age", age);
+            map.put("sexCode", sexCode);
+            return map;
+    }
 }
