@@ -1,5 +1,7 @@
 package com.wangyue.db.model;
 
+import org.springframework.util.StringUtils;
+
 import javax.persistence.*;
 
 /**
@@ -38,7 +40,7 @@ public class TTeacher {
     @Column
     private String name;
     @Column
-    private String post;
+    private String post; //1--助教  2--讲师  3--副教授 4--教授  5--其他
     @Column
     private String sex;
     @Column
@@ -145,5 +147,24 @@ public class TTeacher {
 
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
+    }
+
+    ////1--助教  2--讲师  3--副教授 4--教授  5--其他
+    public void setPostByRank(String rank) {
+        if (!StringUtils.isEmpty(rank)) {
+            if (StringUtils.startsWithIgnoreCase(rank, "助教")) {
+                setPost("1");
+            } else if (StringUtils.startsWithIgnoreCase(rank, "讲师")) {
+                setPost("2");
+            } else if (StringUtils.startsWithIgnoreCase(rank, "副教授")) {
+                setPost("3");
+            } else if (StringUtils.startsWithIgnoreCase(rank, "教授")) {
+                setPost("4");
+            } else {
+                setPost("5");
+            }
+        } else {
+            setPost("5");
+        }
     }
 }

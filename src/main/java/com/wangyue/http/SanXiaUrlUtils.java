@@ -1,7 +1,9 @@
 package com.wangyue.http;
 
 import com.wangyue.Constants;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SanXiaUrlUtils {
 
     String userName;
@@ -12,10 +14,6 @@ public class SanXiaUrlUtils {
         userName = Constants.SANXIA_USERNAME;
         passWD = Constants.SANXIA_PASSWD;
         baseUrl = Constants.SANXIA_BASEURL;
-    }
-
-    public static SanXiaUrlUtils getInstance(){
-        return new SanXiaUrlUtils();
     }
 
     private String getUrl(String funName) {
@@ -35,7 +33,7 @@ public class SanXiaUrlUtils {
      * 按年级获取学生信息
      * @return
      */
-    public String getGetStudent(String grade){
+    public String getStudent(String grade){
         String url = getUrl("GetStudent") + "&Grade=" + grade;
         return HttpClientUtils.getInstance().get(url);
     }
